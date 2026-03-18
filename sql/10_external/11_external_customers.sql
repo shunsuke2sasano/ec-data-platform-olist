@@ -6,7 +6,7 @@
 --   dt=YYYY-MM-DD は GCS パス上にあり、テーブル列としては持たない。
 --   ingest_date は raw insert 時に _FILE_NAME から抽出する。
 
-CREATE OR REPLACE EXTERNAL TABLE `ec-data-platform.raw_olist.customers_external`
+CREATE EXTERNAL TABLE IF NOT EXISTS `ec-data-platform.raw_olist.customers_external`
 (
   customer_id STRING,
   customer_unique_id STRING,

@@ -18,6 +18,7 @@ USING (
     CURRENT_TIMESTAMP() AS updated_at
   FROM `ec-data-platform.clean_olist.orders`
   WHERE purchase_date IS NOT NULL
+    AND purchase_date = run_date
   GROUP BY purchase_date
 ) AS S
 ON T.purchase_date = S.purchase_date

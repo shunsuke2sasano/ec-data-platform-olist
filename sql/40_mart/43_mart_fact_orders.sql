@@ -19,6 +19,7 @@ USING (
   WHERE order_id IS NOT NULL
     AND customer_id IS NOT NULL
     AND purchase_date IS NOT NULL
+    AND purchase_date = run_date
 ) AS S
 ON T.order_id = S.order_id
 

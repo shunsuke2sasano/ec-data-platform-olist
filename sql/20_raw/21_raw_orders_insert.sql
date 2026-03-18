@@ -23,7 +23,7 @@ SELECT
   order_delivered_customer_date,
   order_estimated_delivery_date,
 
-  run_date AS ingest_date,
+  SAFE_CAST(REGEXP_EXTRACT(_FILE_NAME, r'dt=(\d{4}-\d{2}-\d{2})') AS DATE) AS ingest_date,
   CURRENT_TIMESTAMP() AS loaded_at,
   _FILE_NAME AS source_file
 FROM `ec-data-platform.raw_olist.orders_external`;

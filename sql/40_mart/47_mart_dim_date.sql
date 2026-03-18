@@ -1,13 +1,13 @@
 -- sql/40_mart/47_mart_dim_date.sql
 -- Purpose:
---   fact_orders に存在する purchase_date をもとに dim_date を作成・更新する。
+--   GENERATE_DATE_ARRAY で固定範囲の全日付を生成 dim_date を作成・更新する。
 -- Grain:
 --   1日 = 1行
 
 MERGE `ec-data-platform.mart_olist.dim_date` AS T
 USING (
   SELECT DISTINCT
-    purchase_date,
+    d AS purchase_date,
     EXTRACT(YEAR FROM purchase_date) AS year_num,
     EXTRACT(MONTH FROM purchase_date) AS month_num,
     EXTRACT(DAY FROM purchase_date) AS day_num,
@@ -25,8 +25,9 @@ USING (
     EXTRACT(DAYOFWEEK FROM purchase_date) IN (1, 7) AS is_weekend,
     CURRENT_TIMESTAMP() AS created_at,
     CURRENT_TIMESTAMP() AS updated_at
-  FROM `ec-data-platform.mart_olist.fact_orders`
-  WHERE purchase_date IS NOT NULL
+  FROM UNNEST(
+    GENERATE_DATE_ARRAY(DATE '2016-01-01', DATE '2030-12-31', INTERVAL 1 DAY)
+  ) AS d
 ) AS S
 ON T.purchase_date = S.purchase_date
 

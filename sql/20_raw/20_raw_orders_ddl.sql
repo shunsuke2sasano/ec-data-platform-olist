@@ -7,7 +7,7 @@
 --   - loaded_at  : ロード時刻
 --   - source_file: 参照元ファイル（外部テーブルの _FILE_NAME ）
 
-CREATE OR REPLACE TABLE `ec-data-platform.raw_olist.orders`
+CREATE TABLE IF NOT EXISTS`ec-data-platform.raw_olist.orders`
 (
   order_id STRING,
   customer_id STRING,
